@@ -1,0 +1,146 @@
+-- c00lOS
+-- Version: 1.0.0
+
+-- Instances:
+
+local DestroySubjectGUI = Instance.new("ScreenGui")
+local Sky = Instance.new("TextButton")
+local Decal = Instance.new("TextButton")
+local Destroy = Instance.new("TextButton")
+
+--Properties:
+
+DestroySubjectGUI.Name = "DestroySubjectGUI"
+DestroySubjectGUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+DestroySubjectGUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Sky.Name = "Sky"
+Sky.Parent = DestroySubjectGUI
+Sky.BackgroundColor3 = Color3.fromRGB(0, 124, 8)
+Sky.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Sky.BorderSizePixel = 0
+Sky.Position = UDim2.new(0.894843936, 0, 0.0391414128, 0)
+Sky.Size = UDim2.new(0, 62, 0, 50)
+Sky.Font = Enum.Font.SourceSans
+Sky.Text = "Sky"
+Sky.TextColor3 = Color3.fromRGB(255, 255, 255)
+Sky.TextScaled = true
+Sky.TextSize = 14.000
+Sky.TextWrapped = true
+
+Decal.Name = "Decal"
+Decal.Parent = DestroySubjectGUI
+Decal.BackgroundColor3 = Color3.fromRGB(0, 124, 8)
+Decal.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Decal.BorderSizePixel = 0
+Decal.Position = UDim2.new(0.894843936, 0, 0.102272727, 0)
+Decal.Size = UDim2.new(0, 62, 0, 50)
+Decal.Font = Enum.Font.SourceSans
+Decal.Text = "Decal"
+Decal.TextColor3 = Color3.fromRGB(255, 255, 255)
+Decal.TextScaled = true
+Decal.TextSize = 14.000
+Decal.TextWrapped = true
+
+Destroy.Name = "Destroy"
+Destroy.Parent = DestroySubjectGUI
+Destroy.BackgroundColor3 = Color3.fromRGB(0, 124, 8)
+Destroy.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Destroy.BorderSizePixel = 0
+Destroy.Position = UDim2.new(0.894843936, 0, 0.165404037, 0)
+Destroy.Size = UDim2.new(0, 62, 0, 50)
+Destroy.Font = Enum.Font.SourceSans
+Destroy.Text = "Destroy GUI"
+Destroy.TextColor3 = Color3.fromRGB(255, 255, 255)
+Destroy.TextScaled = true
+Destroy.TextSize = 14.000
+Destroy.TextWrapped = true
+
+-- Scripts:
+
+local function ELFCU_fake_script() -- Sky.LocalScript 
+	local script = Instance.new('LocalScript', Sky)
+
+	local button = script.Parent
+	local Lighting = game:GetService("Lighting")
+	local decalId = "rbxassetid://8408806737"
+	
+	button.MouseButton1Click:Connect(function()
+		print("Skybox button clicked")
+	
+		for _, obj in ipairs(Lighting:GetChildren()) do
+			if obj:IsA("Sky") then
+				obj:Destroy()
+			end
+		end
+	
+		local sky = Instance.new("Sky")
+		sky.Name = "CustomSkybox"
+		sky.SkyboxBk = decalId
+		sky.SkyboxDn = decalId
+		sky.SkyboxFt = decalId
+		sky.SkyboxLf = decalId
+		sky.SkyboxRt = decalId
+		sky.SkyboxUp = decalId
+	
+		sky.SunTextureId = ""
+		sky.MoonTextureId = ""
+	
+		sky.Parent = Lighting
+	
+	end)
+	
+end
+coroutine.wrap(ELFCU_fake_script)()
+local function EHXFP_fake_script() -- Decal.LocalScript 
+	local script = Instance.new('LocalScript', Decal)
+
+	local button = script.Parent  
+	local decalId = "rbxassetid://8408806737"
+	
+	local faces = {
+		Enum.NormalId.Top,
+		Enum.NormalId.Bottom,
+		Enum.NormalId.Front,
+		Enum.NormalId.Back,
+		Enum.NormalId.Left,
+		Enum.NormalId.Right
+	}
+	
+	button.MouseButton1Click:Connect(function()
+	
+		for _, obj in pairs(workspace:GetDescendants()) do
+			if obj:IsA("BasePart") then
+				for _, face in pairs(faces) do
+					local alreadyExists = false
+					for _, child in pairs(obj:GetChildren()) do
+						if child:IsA("Decal") and child.Face == face and child.Texture == decalId then
+							alreadyExists = true
+							break
+						end
+					end
+	
+					if not alreadyExists then
+						local decal = Instance.new("Decal")
+						decal.Texture = decalId
+						decal.Face = face
+						decal.Parent = obj
+					end
+				end
+			end
+		end
+	end)
+	
+end
+coroutine.wrap(EHXFP_fake_script)()
+local function TAIR_fake_script() -- Destroy.LocalScript 
+	local script = Instance.new('LocalScript', Destroy)
+
+	local guiName = "DestroySubjectGUI"
+	local player = game.Players.LocalPlayer
+	local pg = player and player:WaitForChild("PlayerGui")
+	local gui = pg and pg:FindFirstChild(guiName)
+	if gui then gui:Destroy() end
+	
+end
+coroutine.wrap(TAIR_fake_script)()
